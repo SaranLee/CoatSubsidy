@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="coatsubsidy:war exploded2">
+    <output-path>$PROJECT_DIR$/out/artifacts/coatsubsidy_war_exploded2</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="coatsubsidy/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="coatsubsidy" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
