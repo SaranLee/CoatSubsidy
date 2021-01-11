@@ -13,7 +13,7 @@
     <!--配置视图解析器(控制层返回的字符串在视图解析器中解析并返回,前缀和后缀)-->
     <beans:bean id="viewResolver"
                 class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <beans:property name="prefix" value="WEB-INF/pages/"/>
+        <beans:property name="prefix" value="/WEB-INF/pages/"/>
         <beans:property name="suffix" value=".jsp"/>
     </beans:bean>
     <!--如果controller处理不了,交给服务器处理(忽略静态资源)-->

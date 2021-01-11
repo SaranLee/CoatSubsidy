@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scu.coatsubsidy.mapper.UserManageMapper">
   <resultMap id="BaseResultMap" type="com.scu.coatsubsidy.domain.UserManage">
-    <result column="userName" jdbcType="VARCHAR" property="username" />
-    <result column="userSn" jdbcType="VARCHAR" property="usersn" />
-    <result column="organizationId" jdbcType="BIGINT" property="organizationid" />
-    <result column="organizationName" jdbcType="VARCHAR" property="organizationname" />
-    <result column="organizationSN" jdbcType="VARCHAR" property="organizationsn" />
-    <result column="roleId" jdbcType="BIGINT" property="roleid" />
-    <result column="roleName" jdbcType="VARCHAR" property="rolename" />
-    <result column="organizationType" jdbcType="TINYINT" property="organizationtype" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="user_sn" jdbcType="VARCHAR" property="userSn" />
+    <result column="organization_id" jdbcType="BIGINT" property="organizationId" />
+    <result column="organization_name" jdbcType="VARCHAR" property="organizationName" />
+    <result column="organization_sn" jdbcType="VARCHAR" property="organizationSn" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="organization_type" jdbcType="TINYINT" property="organizationType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,8 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    userName, userSn, organizationId, organizationName, organizationSN, roleId, roleName, 
-    organizationType
+    username, user_sn, organization_id, organization_name, organization_sn, role_id, 
+    role_name, organization_type
   </sql>
   <select id="selectByExample" parameterType="com.scu.coatsubsidy.domain.UserManageExample" resultMap="BaseResultMap">
     select
@@ -94,65 +94,65 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.scu.coatsubsidy.domain.UserManage">
-    insert into v_user_manage (userName, userSn, organizationId, 
-      organizationName, organizationSN, roleId, 
-      roleName, organizationType)
-    values (#{username,jdbcType=VARCHAR}, #{usersn,jdbcType=VARCHAR}, #{organizationid,jdbcType=BIGINT}, 
-      #{organizationname,jdbcType=VARCHAR}, #{organizationsn,jdbcType=VARCHAR}, #{roleid,jdbcType=BIGINT}, 
-      #{rolename,jdbcType=VARCHAR}, #{organizationtype,jdbcType=TINYINT})
+    insert into v_user_manage (username, user_sn, organization_id, 
+      organization_name, organization_sn, role_id, 
+      role_name, organization_type)
+    values (#{username,jdbcType=VARCHAR}, #{userSn,jdbcType=VARCHAR}, #{organizationId,jdbcType=BIGINT}, 
+      #{organizationName,jdbcType=VARCHAR}, #{organizationSn,jdbcType=VARCHAR}, #{roleId,jdbcType=BIGINT}, 
+      #{roleName,jdbcType=VARCHAR}, #{organizationType,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.scu.coatsubsidy.domain.UserManage">
     insert into v_user_manage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="username != null">
-        userName,
+        username,
       </if>
-      <if test="usersn != null">
-        userSn,
+      <if test="userSn != null">
+        user_sn,
       </if>
-      <if test="organizationid != null">
-        organizationId,
+      <if test="organizationId != null">
+        organization_id,
       </if>
-      <if test="organizationname != null">
-        organizationName,
+      <if test="organizationName != null">
+        organization_name,
       </if>
-      <if test="organizationsn != null">
-        organizationSN,
+      <if test="organizationSn != null">
+        organization_sn,
       </if>
-      <if test="roleid != null">
-        roleId,
+      <if test="roleId != null">
+        role_id,
       </if>
-      <if test="rolename != null">
-        roleName,
+      <if test="roleName != null">
+        role_name,
       </if>
-      <if test="organizationtype != null">
-        organizationType,
+      <if test="organizationType != null">
+        organization_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
         #{username,jdbcType=VARCHAR},
       </if>
-      <if test="usersn != null">
-        #{usersn,jdbcType=VARCHAR},
+      <if test="userSn != null">
+        #{userSn,jdbcType=VARCHAR},
       </if>
-      <if test="organizationid != null">
-        #{organizationid,jdbcType=BIGINT},
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=BIGINT},
       </if>
-      <if test="organizationname != null">
-        #{organizationname,jdbcType=VARCHAR},
+      <if test="organizationName != null">
+        #{organizationName,jdbcType=VARCHAR},
       </if>
-      <if test="organizationsn != null">
-        #{organizationsn,jdbcType=VARCHAR},
+      <if test="organizationSn != null">
+        #{organizationSn,jdbcType=VARCHAR},
       </if>
-      <if test="roleid != null">
-        #{roleid,jdbcType=BIGINT},
+      <if test="roleId != null">
+        #{roleId,jdbcType=BIGINT},
       </if>
-      <if test="rolename != null">
-        #{rolename,jdbcType=VARCHAR},
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="organizationtype != null">
-        #{organizationtype,jdbcType=TINYINT},
+      <if test="organizationType != null">
+        #{organizationType,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -166,28 +166,28 @@
     update v_user_manage
     <set>
       <if test="record.username != null">
-        userName = #{record.username,jdbcType=VARCHAR},
+        username = #{record.username,jdbcType=VARCHAR},
       </if>
-      <if test="record.usersn != null">
-        userSn = #{record.usersn,jdbcType=VARCHAR},
+      <if test="record.userSn != null">
+        user_sn = #{record.userSn,jdbcType=VARCHAR},
       </if>
-      <if test="record.organizationid != null">
-        organizationId = #{record.organizationid,jdbcType=BIGINT},
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=BIGINT},
       </if>
-      <if test="record.organizationname != null">
-        organizationName = #{record.organizationname,jdbcType=VARCHAR},
+      <if test="record.organizationName != null">
+        organization_name = #{record.organizationName,jdbcType=VARCHAR},
       </if>
-      <if test="record.organizationsn != null">
-        organizationSN = #{record.organizationsn,jdbcType=VARCHAR},
+      <if test="record.organizationSn != null">
+        organization_sn = #{record.organizationSn,jdbcType=VARCHAR},
       </if>
-      <if test="record.roleid != null">
-        roleId = #{record.roleid,jdbcType=BIGINT},
+      <if test="record.roleId != null">
+        role_id = #{record.roleId,jdbcType=BIGINT},
       </if>
-      <if test="record.rolename != null">
-        roleName = #{record.rolename,jdbcType=VARCHAR},
+      <if test="record.roleName != null">
+        role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
-      <if test="record.organizationtype != null">
-        organizationType = #{record.organizationtype,jdbcType=TINYINT},
+      <if test="record.organizationType != null">
+        organization_type = #{record.organizationType,jdbcType=TINYINT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -196,14 +196,14 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update v_user_manage
-    set userName = #{record.username,jdbcType=VARCHAR},
-      userSn = #{record.usersn,jdbcType=VARCHAR},
-      organizationId = #{record.organizationid,jdbcType=BIGINT},
-      organizationName = #{record.organizationname,jdbcType=VARCHAR},
-      organizationSN = #{record.organizationsn,jdbcType=VARCHAR},
-      roleId = #{record.roleid,jdbcType=BIGINT},
-      roleName = #{record.rolename,jdbcType=VARCHAR},
-      organizationType = #{record.organizationtype,jdbcType=TINYINT}
+    set username = #{record.username,jdbcType=VARCHAR},
+      user_sn = #{record.userSn,jdbcType=VARCHAR},
+      organization_id = #{record.organizationId,jdbcType=BIGINT},
+      organization_name = #{record.organizationName,jdbcType=VARCHAR},
+      organization_sn = #{record.organizationSn,jdbcType=VARCHAR},
+      role_id = #{record.roleId,jdbcType=BIGINT},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
+      organization_type = #{record.organizationType,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

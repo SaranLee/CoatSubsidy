@@ -3,19 +3,19 @@ package com.scu.coatsubsidy.domain;
 public class UserManage {
     private String username;
 
-    private String usersn;
+    private String userSn;
 
-    private Long organizationid;
+    private Long organizationId;
 
-    private String organizationname;
+    private String organizationName;
 
-    private String organizationsn;
+    private String organizationSn;
 
-    private Long roleid;
+    private Long roleId;
 
-    private String rolename;
+    private String roleName;
 
-    private Byte organizationtype;
+    private Byte organizationType;
 
     public String getUsername() {
         return username;
@@ -25,59 +25,59 @@ public class UserManage {
         this.username = username == null ? null : username.trim();
     }
 
-    public String getUsersn() {
-        return usersn;
+    public String getUserSn() {
+        return userSn;
     }
 
-    public void setUsersn(String usersn) {
-        this.usersn = usersn == null ? null : usersn.trim();
+    public void setUserSn(String userSn) {
+        this.userSn = userSn == null ? null : userSn.trim();
     }
 
-    public Long getOrganizationid() {
-        return organizationid;
+    public Long getOrganizationId() {
+        return organizationId;
     }
 
-    public void setOrganizationid(Long organizationid) {
-        this.organizationid = organizationid;
+    public void setOrganizationId(Long organizationId) {
+        this.organizationId = organizationId;
     }
 
-    public String getOrganizationname() {
-        return organizationname;
+    public String getOrganizationName() {
+        return organizationName;
     }
 
-    public void setOrganizationname(String organizationname) {
-        this.organizationname = organizationname == null ? null : organizationname.trim();
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName == null ? null : organizationName.trim();
     }
 
-    public String getOrganizationsn() {
-        return organizationsn;
+    public String getOrganizationSn() {
+        return organizationSn;
     }
 
-    public void setOrganizationsn(String organizationsn) {
-        this.organizationsn = organizationsn == null ? null : organizationsn.trim();
+    public void setOrganizationSn(String organizationSn) {
+        this.organizationSn = organizationSn == null ? null : organizationSn.trim();
     }
 
-    public Long getRoleid() {
-        return roleid;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRoleid(Long roleid) {
-        this.roleid = roleid;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
-    public String getRolename() {
-        return rolename;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRolename(String rolename) {
-        this.rolename = rolename == null ? null : rolename.trim();
+    public void setRoleName(String roleName) {
+        this.roleName = roleName == null ? null : roleName.trim();
     }
 
-    public Byte getOrganizationtype() {
-        return organizationtype;
+    public Byte getOrganizationType() {
+        return organizationType;
     }
 
-    public void setOrganizationtype(Byte organizationtype) {
-        this.organizationtype = organizationtype;
+    public void setOrganizationType(Byte organizationType) {
+        this.organizationType = organizationType;
     }
 }
