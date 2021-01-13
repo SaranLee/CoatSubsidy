@@ -35,9 +35,26 @@
         </javaClientGenerator>
 
         <!--  对应的表生成对应的 实体类 -->
-        <table tableName="v_user_manage" domainObjectName="UserManage"/>
-        <table tableName="wcss_whitelist_setting" domainObjectName="WhiteList"/>
-
+        <!--<table tableName="v_user_manage" domainObjectName="UserManage"/>-->
+        <!--<table tableName="wcss_whitelist_setting" domainObjectName="WhiteList"/>-->
+        <!--<table tableName="wcss_batch_setting" domainObjectName="Batch">-->
+            <!--<columnOverride column="is_deleted" javaType="int" property="deleted"/>-->
+            <!--<columnOverride column="active" javaType="int" property="active"/>-->
+            <!--<columnOverride column="application_start_date" javaType="java.time.LocalDate"/>-->
+            <!--<columnOverride column="application_end_date" javaType="java.time.LocalDate"/>-->
+            <!--<columnOverride column="register_start_date" javaType="java.time.LocalDate"/>-->
+            <!--<columnOverride column="register_end_date" javaType="java.time.LocalDate"/>-->
+        <!--</table>-->
+        <!--<table tableName="dictionary" domainObjectName="Dictionary"/>-->
+        <table tableName="wcss_product" domainObjectName="Product">
+            <columnOverride column="is_deleted" javaType="int" property="deleted"/>
+        </table>
+        <table tableName="wcss_product_image" domainObjectName="ProductImage">
+            <columnOverride column="is_deleted" javaType="int" property="deleted"/>
+        </table>
+        <table tableName="wcss_sku" domainObjectName="Sku">
+            <columnOverride column="is_deleted" javaType="int" property="deleted"/>
+        </table>
 
     </context>
 </generatorConfiguration>

@@ -79,7 +79,7 @@
                             </a>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link link-1st">
+                            <a href="${PATH}/batch/list" class="nav-link link-1st">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
                                     批次设置
@@ -110,7 +110,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link link-2nd">
+                                    <a href="${PATH}/product/toPage" class="nav-link link-2nd">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>添加寒衣</p>
                                     </a>
