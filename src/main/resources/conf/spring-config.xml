@@ -34,6 +34,7 @@ http://www.springframework.org/schema/context ">
         <property name="mapperLocations">
             <list>
                 <value>classpath:mybatis/mapper/*.xml</value>
+                <value>classpath:mybatis/mapper/extend/*.xml</value>
             </list>
         </property>
     </bean>
@@ -42,6 +43,12 @@ http://www.springframework.org/schema/context ">
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!--扫描所有dao接口的实现，加入到ioc容器中 -->
         <property name="basePackage" value="com.scu.coatsubsidy.mapper"></property>
+    </bean>
+
+    <!--配置文件上传解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="maxUploadSize" value="1024000"></property>
     </bean>
 
     <!--&lt;!&ndash; 配置一个可以执行批量的sqlSession &ndash;&gt;-->

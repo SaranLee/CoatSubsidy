@@ -2,7 +2,7 @@ package com.scu.coatsubsidy.domain;
 
 import java.util.Date;
 
-public class Product {
+public class Product{
     private Long id;
 
     private String name;

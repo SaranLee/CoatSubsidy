@@ -3,9 +3,11 @@ package com.scu.coatsubsidy.mapper;
 import com.scu.coatsubsidy.domain.ProductImage;
 import com.scu.coatsubsidy.domain.ProductImageExample;
 import java.util.List;
+
+import com.scu.coatsubsidy.mapper.extend.ProductImageMapperExtend;
 import org.apache.ibatis.annotations.Param;
 
-public interface ProductImageMapper {
+public interface ProductImageMapper extends ProductImageMapperExtend {
     long countByExample(ProductImageExample example);
 
     int deleteByExample(ProductImageExample example);

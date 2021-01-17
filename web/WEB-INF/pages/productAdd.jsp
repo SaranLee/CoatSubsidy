@@ -47,6 +47,11 @@
   <link rel="stylesheet" href="${PATH}/static/adminlte/plugins/summernote/summernote-bs4.css">
   <!-- layui -->
   <link rel="stylesheet" href="${PATH}/static/layui/css/modules/layer/default/layer.css">
+
+	<!--自定义样式-->
+	<style>
+
+	</style>
 </head>
 <body class="sidebar-mini" style="height: auto;">
 <div class="wrapper">
@@ -65,7 +70,7 @@
 
 			  </div>
 			  <div class="card-body">
-				<form id="form_add_product" action="${PATH}/product/" method="post">
+				<form id="form_add_product" action="${PATH}/product/" method="post" enctype="multipart/form-data">
 				  <!--put请求，添加数据-->
 				  <input type="hidden" name="_method" value="PUT">
 				  <div class="form-group row">
@@ -92,28 +97,44 @@
 					<label class="col-sm-1 offset-1 col-form-label font-weight-normal">性别</label>
 					<div class="col-sm-9">
 					  <div class="custom-control custom-radio custom-control-inline">
-						<input type="radio" id="male" name="gender" class="custom-control-input" value="M">
-						<label class="custom-control-label font-weight-light" for="male">男&nbsp款</label>
+							<input type="radio" id="male" name="gender" class="custom-control-input" value="M">
+							<label class="custom-control-label font-weight-light" for="male">男&nbsp款</label>
 					  </div>
 					  <div class="custom-control custom-radio custom-control-inline">
-						<input type="radio" id="female" name="gender" class="custom-control-input" value="F">
-						<label class="custom-control-label font-weight-light" for="female">女&nbsp款</label>
+							<input type="radio" id="female" name="gender" class="custom-control-input" value="F">
+							<label class="custom-control-label font-weight-light" for="female">女&nbsp款</label>
 					  </div>
 					  <div class="custom-control custom-radio custom-control-inline">
-						<input type="radio" id="male_female" name="gender" class="custom-control-input" value="MF">
-						<label class="custom-control-label font-weight-light" for="male_female">男女皆宜</label>
+							<input type="radio" id="male_female" name="gender" class="custom-control-input" value="MF">
+							<label class="custom-control-label font-weight-light" for="male_female">男女皆宜</label>
 					  </div>
 					</div>
 				  </div>
 				  <!--规格-->
 				  <div class="form-group row">
-					<label for="sku" class="col-sm-1 offset-1 col-form-label font-weight-normal">规格</label>
+					<label class="col-sm-1 offset-1 col-form-label font-weight-normal">规格</label>
 					<div class="col-sm-9">
-					  <select class="form-control" id="sku" name="sku">
-
-					  </select>
+						<span id="sku_span" style="display: inline-block">
+							<!--添加的规格-->
+						</span>
+						<span id="btn_add_sku" class="btn btn-primary btn-sm">添加</span>
+						<input id="input_add_sku" class="btn btn-outline-primary btn-sm" style="width: 100px; display: none">
 					</div>
 				  </div>
+				  <!--图片-->
+				  <div class="form-group row">
+						<label class="col-sm-1 offset-1 col-form-label font-weight-normal">图片</label>
+						<div class="col-sm-3">
+							<input type="file" name="imgs" class="form-control">
+						</div>
+						<div class="col-sm-3">
+							<input type="file" name="imgs" class="form-control">
+						</div>
+						<div class="col-sm-3">
+							<input type="file" name="imgs" class="form-control">
+						</div>
+				  </div>
+				  <!--描述-->
 				  <div class="form-group row">
 					<label for="batch" class="col-sm-1 offset-1 col-form-label font-weight-normal">描述</label>
 					<div class="col-sm-9">
@@ -197,6 +218,8 @@
 
 <script>
   setHighlightAndMenuOpen("寒衣管理", "添加寒衣");
+  //文本编辑框
+  $('.textarea').summernote({lang : 'zh-CN'});
 
   //获取所有的批次，并添加下拉框选项，最后设置批次初值
   $.ajax({
@@ -223,25 +246,68 @@
 
   //添加寒衣按钮
   $("#btn_add_product").click(function () {
-	$.ajax({
-	  url:"${PATH}/product/",
-	  type:"POST",
-	  data:$("#form_add_product").serialize(),
-	  dataType:"json",
-	  success:function (result) {
-		if(result.data) {
-          layer.msg("添加寒衣成功", {time: 2000, offset: ['50%', '50%']});
-          resetFormAddProduct();
-        }
-      }
-	});
+    var formData = new FormData();
+    formData.append("_method", "POST");
+    formData.append("name", $("#prod_name").val());
+    formData.append("productNumber", $("#prod_number").val());
+    formData.append("batchId", $("#batch").val());
+    formData.append("gender", $("input:radio[name='gender']:checked").val());
+    $("input[name='skuNames']").each(function (i, skuName) {
+			formData.append("skuNames", $(skuName).val())
+    });
+    $("input[name='imgs']").each(function (i, img) {
+			formData.append("imgs", img.files[0]);
+    });
+    formData.append("description", $("textarea").val());
+
+		$.ajax({
+			url:"${PATH}/product/",
+			type:"post",
+			contentType: false,
+			processData: false,
+			data:formData,
+			dataType:"json",
+			success:function (result) {
+			if(result.data) {
+						layer.msg("添加寒衣成功", {time: 2000, offset: ['50%', '50%']});
+						resetFormAddProduct();
+					}
+				}
+		});
   });
 
+  //点击添加规格的按钮
+	$("#btn_add_sku").click(function () {
+	  $(this).attr("style", "display: none");
+	  $("#input_add_sku").attr("style", "width: 100px;");
+	  $("#input_add_sku").focus();
+	  $("#input_add_sku").blur(function () {
+	    var value = $(this).val();
+			if(value !== "" ) {
+        //<div class="btn-group"><input type="text" name="skus" class="sku btn btn-sm btn-info" style="width: 60px" value=""> <div class="btn btn-sm btn-info" style="text-align: center">x</div></div>
+        $("#sku_span").append('<div class="btn-group" style="margin-right: 5px"><input type="text" name="skuNames" class="sku btn btn-sm btn-info" style="width: 60px" value="' + value + '"> <div class="btn_del_sku btn btn-sm btn-info" style="text-align: center">x</div></div>')
 
-  //文本编辑框
-  $('.textarea').summernote({lang : 'zh-CN'});
+        //点击添加好后的规格，改变样式
+        $(".sku").focus(function () {
+          $(this).removeClass("btn-info");
+          $(this).addClass("btn-outline-info");
+        });
+        $(".sku").blur(function () {
+          $(this).addClass("btn-info");
+          $(this).removeClass("btn-outline-info");
+        });
+        //点击删除规格的按钮
+        $(".btn_del_sku").click(function () {
+          $(this).parent().remove();
+        });
+			}
+      $("#btn_add_sku").attr("style", "");
+      $(this).attr("style", "width: 100px; display: none");
+      $(this).val("");
+    });
+  });
 
-
+  //重置表单
   function resetFormAddProduct(){
     $("#form_add_product")[0].reset();
   }

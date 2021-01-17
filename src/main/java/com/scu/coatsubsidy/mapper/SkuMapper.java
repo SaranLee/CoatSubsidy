@@ -3,9 +3,11 @@ package com.scu.coatsubsidy.mapper;
 import com.scu.coatsubsidy.domain.Sku;
 import com.scu.coatsubsidy.domain.SkuExample;
 import java.util.List;
+
+import com.scu.coatsubsidy.mapper.extend.SkuMapperExtend;
 import org.apache.ibatis.annotations.Param;
 
-public interface SkuMapper {
+public interface SkuMapper extends SkuMapperExtend {
     long countByExample(SkuExample example);
 
     int deleteByExample(SkuExample example);

@@ -104,13 +104,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link link-2nd">
+                                    <a href="${PATH}/product/list" class="nav-link link-2nd">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>寒衣列表</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="${PATH}/product/toPage" class="nav-link link-2nd">
+                                    <a href="${PATH}/product/toAdd" class="nav-link link-2nd">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>添加寒衣</p>
                                     </a>
