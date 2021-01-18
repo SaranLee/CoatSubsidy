@@ -6,6 +6,15 @@ import java.util.List;
 
 public class ProductDTO extends Product {
     private List<String> skuNames;
+    private List<String> oldImgs;
+
+    public List<String> getOldImgs() {
+        return oldImgs;
+    }
+
+    public void setOldImgs(List<String> oldImgs) {
+        this.oldImgs = oldImgs;
+    }
 
     public List<String> getSkuNames() {
         return skuNames;

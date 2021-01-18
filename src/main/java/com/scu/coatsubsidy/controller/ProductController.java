@@ -51,4 +51,12 @@ public class ProductController {
         return JsonResult.ok(service.getById(id));
     }
 
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult updateById(ProductDTO product, MultipartFile[] imgs, HttpServletRequest req){
+        String imgPathPrefix = req.getServletContext().getRealPath("static/img");
+        service.updateById(product, imgs, imgPathPrefix);
+        return JsonResult.ok(true);
+    }
+
 }

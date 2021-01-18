@@ -1,6 +1,7 @@
 package com.scu.coatsubsidy.service;
 
 import com.github.pagehelper.PageInfo;
+import com.scu.coatsubsidy.common.JsonResult;
 import com.scu.coatsubsidy.domain.Batch;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface BatchService {
     Batch getBatchById(Integer id);
     List<Batch> getAll();
     Batch getCurrBatch();
+
+    boolean checkUserDiff();
 }

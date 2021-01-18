@@ -28,4 +28,11 @@ public class SkuServiceImpl implements SkuService {
         example.createCriteria().andProductIdEqualTo(productId).andDeletedEqualTo(NOT_DELETED);
         return mapper.selectByExample(example);
     }
+
+    @Override
+    public void deleteById(Long id) {
+        SkuExample example = new SkuExample();
+        example.createCriteria().andProductIdEqualTo(id);
+        mapper.deleteByExample(example);
+    }
 }

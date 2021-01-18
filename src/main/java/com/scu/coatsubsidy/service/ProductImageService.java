@@ -8,4 +8,6 @@ public interface ProductImageService {
     boolean insertBatch(List<ProductImage> imgs);
 
     List<ProductImage> getImgsByProductId(Long productId);
+
+    void delete(Long id, List<String> oldImgs);
 }

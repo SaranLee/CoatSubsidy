@@ -46,15 +46,22 @@
             <!--<columnOverride column="register_end_date" javaType="java.time.LocalDate"/>-->
         <!--</table>-->
         <!--<table tableName="dictionary" domainObjectName="Dictionary"/>-->
-        <table tableName="wcss_product" domainObjectName="Product">
-            <columnOverride column="is_deleted" javaType="int" property="deleted"/>
+        <!--<table tableName="wcss_product" domainObjectName="Product">-->
+            <!--<columnOverride column="is_deleted" javaType="int" property="deleted"/>-->
+        <!--</table>-->
+        <!--<table tableName="wcss_product_image" domainObjectName="ProductImage">-->
+            <!--<columnOverride column="is_deleted" javaType="int" property="deleted"/>-->
+        <!--</table>-->
+        <!--<table tableName="wcss_sku" domainObjectName="Sku">-->
+            <!--<columnOverride column="is_deleted" javaType="int" property="deleted"/>-->
+        <!--</table>-->
+        <table tableName="v_student_data" domainObjectName="Student">
+            <columnOverride column="class" property="clazz"/>
         </table>
-        <table tableName="wcss_product_image" domainObjectName="ProductImage">
-            <columnOverride column="is_deleted" javaType="int" property="deleted"/>
-        </table>
-        <table tableName="wcss_sku" domainObjectName="Sku">
-            <columnOverride column="is_deleted" javaType="int" property="deleted"/>
-        </table>
+        <table tableName="v_knrd" domainObjectName="Knrd"/>
+        <table tableName="wcss_application" domainObjectName="Application"/>
+        <table tableName="wcss_audit_history" domainObjectName="AuditHistory"/>
+        <table tableName="wcss_role_flow_setting" domainObjectName="RoleFlow"/>
 
     </context>
 </generatorConfiguration>

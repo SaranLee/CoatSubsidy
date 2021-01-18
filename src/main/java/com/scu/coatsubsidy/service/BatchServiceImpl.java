@@ -2,16 +2,17 @@ package com.scu.coatsubsidy.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.scu.coatsubsidy.common.SessionUtils;
 import com.scu.coatsubsidy.domain.Batch;
 import com.scu.coatsubsidy.domain.BatchExample;
+import com.scu.coatsubsidy.domain.WhiteList;
 import com.scu.coatsubsidy.mapper.BatchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.scu.coatsubsidy.common.Constant.DT_DIFFICULTY;
-import static com.scu.coatsubsidy.common.Constant.NOT_DELETED;
+import static com.scu.coatsubsidy.common.Constant.*;
 
 @Service
 public class BatchServiceImpl implements BatchService {
@@ -20,6 +21,8 @@ public class BatchServiceImpl implements BatchService {
     private BatchMapper mapper;
     @Autowired
     private DictionaryService dictionaryService;
+    @Autowired
+    private KnrdService knrdService;
 
     @Override
     public PageInfo list(Integer pageNo, Integer pageSize) {
@@ -80,5 +83,24 @@ public class BatchServiceImpl implements BatchService {
             return list.get(0);
         else
             return null;
+    }
+
+    @Override
+    public boolean checkUserDiff() {
+        String currBatchDiff = getCurrBatch().getDifficultyLevel();
+        WhiteList user = SessionUtils.getLoginUser();
+        String userDiff = knrdService.getDiffLevelByStudentId(user.getSn());
+        if(userDiff == null)
+            return false;
+        switch (currBatchDiff) {
+            case DIFF_LEVEL_BKN:
+                return true;
+            case DIFF_LEVEL_YBKN:
+                return !userDiff.equals("不困难");
+            case DIFF_LEVEL_TSKN:
+                return userDiff.equals("特殊困难");
+            default:
+                return false;
+        }
     }
 }

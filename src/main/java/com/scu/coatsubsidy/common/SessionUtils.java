@@ -16,7 +16,15 @@ public class SessionUtils {
         return request.getSession();
     }
 
+    public static void removeSession(String key){
+        getSession().removeAttribute(key);
+    }
+
     public static void setLoginUser(WhiteList loginUser){
         getSession().setAttribute("loginUser", loginUser);
+    }
+
+    public static void removeLoginUser(){
+        removeSession("loginUser");
     }
 }

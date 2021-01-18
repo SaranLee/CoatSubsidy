@@ -22,4 +22,9 @@ public class WhiteListServiceImpl implements WhiteListService {
             currUser = users.get(0);
         return currUser;
     }
+
+    @Override
+    public void insert(WhiteList user) {
+        mapper.insertSelective(user);
+    }
 }

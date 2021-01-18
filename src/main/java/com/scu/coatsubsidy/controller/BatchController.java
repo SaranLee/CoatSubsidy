@@ -59,4 +59,10 @@ public class BatchController {
     public JsonResult currBatch(){
         return JsonResult.ok(service.getCurrBatch());
     }
+
+    @RequestMapping("/checkUserDiff")
+    @ResponseBody
+    public JsonResult checkUserDiff(){
+        return JsonResult.ok(service.checkUserDiff());
+    }
 }

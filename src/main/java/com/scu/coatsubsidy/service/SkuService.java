@@ -8,4 +8,6 @@ public interface SkuService {
     boolean insertBatch(List<Sku> skus);
 
     List<Sku> getSkusByProductId(Long productId);
+
+    void deleteById(Long id);
 }

@@ -34,7 +34,7 @@
         <!-- 品牌 Logo -->
         <a href="index3.html" class="brand-link">
             <img src="${pageContext.request.contextPath}/static/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
+            <span class="brand-text font-weight-light">寒衣系统</span>
         </a>
 
         <!-- Sidebar -->
@@ -42,10 +42,18 @@
             <!-- 侧边栏用户面板（可选） -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img id="login_user_avatar" src="" class="img-circle elevation-2" alt="用户头像">
+                    <img id="login_user_avatar" src="${PATH}/static/img/avatar04.png" class="img-circle elevation-2" alt="用户头像">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">${sessionScope.loginUser.name}</a>
+                    <c:if test="${sessionScope.loginUser.roleId == 1}">
+                        <a href="#" class="d-block">${sessionScope.loginUser.name}（学生）</a>
+                    </c:if>
+                    <c:if test="${sessionScope.loginUser.roleId == 2}">
+                        <a href="#" class="d-block">${sessionScope.loginUser.name}（管理员）</a>
+                    </c:if>
+                    <c:if test="${sessionScope.loginUser.roleId == 4}">
+                        <a href="#" class="d-block">${sessionScope.loginUser.name}（辅导员）</a>
+                    </c:if>
                 </div>
             </div>
 
@@ -117,12 +125,20 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item has-treeview">
+                            <a href="${PATH}/whiteList/logout" class="nav-link link-1st">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    退出登录
+                                </p>
+                            </a>
+                        </li>
                     </ul>
                 </c:if>
                 <c:if test="${sessionScope.loginUser.roleId == 1}">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link link-1st">
+                            <a href="${PATH}/application/toPage" class="nav-link link-1st">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
                                     申请寒衣
@@ -138,10 +154,38 @@
                             </a>
                         </li>
                         <li class="nav-item has-treeview">
+                            <a href="${PATH}/whiteList/logout" class="nav-link link-1st">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    退出登录
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </c:if>
+                <c:if test="${sessionScope.loginUser.roleId == 4}">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item has-treeview">
+                            <a href="${PATH}/application/waitingForAudit" class="nav-link link-1st">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    待我审核
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
                             <a href="#" class="nav-link link-1st">
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
-                                    balabala
+                                    审核记录
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="${PATH}/whiteList/logout" class="nav-link link-1st">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    退出登录
                                 </p>
                             </a>
                         </li>

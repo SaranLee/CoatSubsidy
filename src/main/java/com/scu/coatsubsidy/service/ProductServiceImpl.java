@@ -87,6 +87,40 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
+    public boolean updateById(ProductDTO product, MultipartFile[] files, String imgPathPrefix) {
+        mapper.updateByPrimaryKeySelective(product);
+        skuService.deleteById(product.getId());
+        List<Sku> skus = product.getSkuNames().stream().map(skuName -> {
+            Sku sku = new Sku();
+            sku.setProductId(product.getId());
+            sku.setName(skuName);
+            return sku;
+        }).collect(Collectors.toList());
+
+        productImageService.delete(product.getId(), product.getOldImgs());
+        File dir = new File(imgPathPrefix);
+        if(!dir.exists())
+            dir.mkdirs();
+        List<ProductImage> imgs = Arrays.stream(files).filter(file -> file.getSize() > 0).map(file -> {
+            String imgName = file.getOriginalFilename();
+            String uuid = UUID.randomUUID().toString().substring(16).replaceAll("-", "").toUpperCase();
+            String filename = uuid + "_" + imgName;
+            ProductImage img = new ProductImage();
+            img.setProductId(product.getId());
+            img.setName(imgName);
+            img.setPath("/static/img/" + filename);
+            try {
+                file.transferTo(new File(dir, filename));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return img;
+        }).collect(Collectors.toList());
+
+        return productImageService.insertBatch(imgs) && skuService.insertBatch(skus);
+    }
+
 
     private ProductVO getProductVO(Product product){
         ProductVO productVO = new ProductVO(product);

@@ -1,7 +1,7 @@
 package com.scu.coatsubsidy.service;
 
-import com.scu.coatsubsidy.domain.WhiteList;
+import java.util.List;
 
 public interface UserManageService {
-
+    List<String> getOrganizationSnByUserSn(String userSn);
 }

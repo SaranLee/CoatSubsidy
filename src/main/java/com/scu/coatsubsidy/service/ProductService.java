@@ -1,6 +1,7 @@
 package com.scu.coatsubsidy.service;
 
 import com.scu.coatsubsidy.domain.Product;
+import com.scu.coatsubsidy.domain.dto.ProductDTO;
 import com.scu.coatsubsidy.domain.vo.ProductVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,4 +12,6 @@ public interface ProductService {
     List<ProductVO> getAll();
 
     ProductVO getById(Integer id);
+
+    boolean updateById(ProductDTO product, MultipartFile[] files, String imgPathPrefix);
 }

@@ -33,18 +33,18 @@
             <p class="login-box-msg">帐户登录</p>
 
             <form action="${PATH}/whiteList/login" method="post">
-                <%--用户名/邮箱--%>
+                <%--用户名/邮箱  谢伯华  --%>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="用户名" name="name" value="谢伯华">
+                    <input type="text" class="form-control" placeholder="用户名" name="name" value="王群超">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-envelope"></span>
                         </div>
                     </div>
                 </div>
-                <%--密码--%>
+                <%--密码 6421 --%>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control" placeholder="密  码" name="sn" value="6421">
+                    <input type="password" class="form-control" placeholder="密  码" name="sn" value="11084">
                     <div class="input-group-append">
                         <div class="input-group-text">
                             <span class="fas fa-lock"></span>

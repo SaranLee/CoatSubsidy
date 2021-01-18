@@ -18,7 +18,8 @@ public class ProductImageServiceImpl implements ProductImageService {
 
     @Override
     public boolean insertBatch(List<ProductImage> imgs) {
-        mapper.insertBatch(imgs);
+        if(imgs.size() > 0)
+            mapper.insertBatch(imgs);
         return true;
     }
 
@@ -27,5 +28,11 @@ public class ProductImageServiceImpl implements ProductImageService {
         ProductImageExample example = new ProductImageExample();
         example.createCriteria().andProductIdEqualTo(productId).andDeletedEqualTo(NOT_DELETED);
         return mapper.selectByExample(example);
+    }
+
+    @Override
+    public void delete(Long id, List<String> oldImgs) {
+        ProductImageExample example = new ProductImageExample();
+        example.createCriteria().andProductIdEqualTo(id).andPathNotIn(oldImgs);
     }
 }
