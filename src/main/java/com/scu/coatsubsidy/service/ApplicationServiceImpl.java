@@ -59,14 +59,12 @@ public class ApplicationServiceImpl implements ApplicationService {
         Integer currNode = getCurrNodeCodeById(id);
         Integer nextNode = roleFlowService.getNextNode(currNode);
         if (isAgreed.equals(AGREE)) {
-            if (nextNode.equals(AUDIT_NODE_3)) {
+            if (nextNode.equals(AUDIT_NODE_3))
                 application.setStatus(AUDIT_STATUS_TG);
-                auditHistory.setStatus(AUDIT_STATUS_TG);
-            } else if (!nextNode.equals(AUDIT_NODE_0)) {
+            else if (!nextNode.equals(AUDIT_NODE_0))
                 application.setStatus(AUDIT_STATUS_DSH);
-                auditHistory.setStatus(AUDIT_STATUS_DSH);
-            }
             application.setCurrentNodeCode(nextNode);
+            auditHistory.setStatus(AUDIT_STATUS_TG);
         } else {
             application.setStatus(AUDIT_STATUS_BTG);
             auditHistory.setStatus(AUDIT_STATUS_BTG);
