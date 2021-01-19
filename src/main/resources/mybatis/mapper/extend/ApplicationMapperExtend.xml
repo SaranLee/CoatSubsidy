@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scu.coatsubsidy.mapper.ApplicationMapper">
+    <resultMap id="ExtendMap" type="com.scu.coatsubsidy.domain.Application" extends="BaseResultMap">
+        <result column="batch_name" property="batchName"/>
+        <result column="status_name" property="statusName"/>
+    </resultMap>
+
+    <select id="collegeWaitingForAudit" resultMap="ExtendMap">
+        SELECT a.*, b.`NAME` batch_name, d.item_name status_name
+        FROM wcss_application a
+        LEFT JOIN v_user_manage u ON a.college_sn = u.organization_sn
+        LEFT JOIN wcss_batch_setting b ON a.batch_id = b.id
+        LEFT JOIN dictionary d ON a.`status` = d.item_value
+        WHERE a.current_node_code = 2 AND a.`status` = 'DSH' AND u.role_id = 3 AND u.user_sn = #{userSn};
+    </select>
+
+    <select id="schoolWaitingForAudit" resultMap="ExtendMap">
+        SELECT a.*, b.`NAME` batch_name, d.item_name status_name
+        FROM wcss_application a
+        LEFT JOIN wcss_batch_setting b ON a.batch_id = b.id
+        LEFT JOIN dictionary d ON a.`status` = d.item_value
+        WHERE a.current_node_code = 3 AND a.`status` = 'DSH';
+    </select>
+
+    <select id="listByInstructor" resultMap="ExtendMap">
+        SELECT DISTINCT a.*, b.`NAME` batch_name, d.item_name status_name
+        FROM wcss_application a
+        LEFT JOIN v_user_manage u ON a.class_sn = u.organization_sn AND role_id = 4
+        LEFT JOIN wcss_batch_setting b ON a.batch_id = b.id
+        LEFT JOIN dictionary d ON a.`STATUS` = d.item_value AND d.type = 'STATUS'
+        WHERE u.user_sn = #{sn};
+    </select>
+
+    <select id="listByCollege" resultMap="ExtendMap">
+        SELECT DISTINCT a.*, b.`NAME` batch_name, d.item_name status_name
+        FROM wcss_application a
+        LEFT JOIN v_user_manage u ON a.college_sn = u.organization_sn AND role_id = 3
+        LEFT JOIN wcss_batch_setting b ON a.batch_id = b.id
+        LEFT JOIN dictionary d ON a.`STATUS` = d.item_value AND d.type = 'STATUS'
+        WHERE u.user_sn = #{sn};
+    </select>
+
+    <select id="listBySchool" resultMap="ExtendMap">
+        SELECT DISTINCT a.*, b.`NAME` batch_name, d.item_name status_name
+        FROM wcss_application a
+        LEFT JOIN wcss_batch_setting b ON a.batch_id = b.id
+        LEFT JOIN dictionary d ON a.`STATUS` = d.item_value AND d.type = 'STATUS';
+    </select>
+</mapper>

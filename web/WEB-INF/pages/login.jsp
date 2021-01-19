@@ -31,7 +31,6 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">帐户登录</p>
-
             <form action="${PATH}/whiteList/login" method="post">
                 <%--用户名/邮箱  谢伯华  --%>
                 <div class="input-group mb-3">

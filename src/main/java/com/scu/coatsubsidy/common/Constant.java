@@ -12,7 +12,8 @@ public interface Constant {
 
     //学生RoleId
     Long ROLE_STUDENT = 1L;
-    Long ROLE_MANAGER = 2L;
+    Long ROLE_SCHOOL = 2L;
+    Long ROLE_COLLEGE = 3L;
     Long ROLE_INSTRUCTOR = 4L;
 
     //困难等级

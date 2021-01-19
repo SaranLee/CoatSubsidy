@@ -3,9 +3,11 @@ package com.scu.coatsubsidy.mapper;
 import com.scu.coatsubsidy.domain.Application;
 import com.scu.coatsubsidy.domain.ApplicationExample;
 import java.util.List;
+
+import com.scu.coatsubsidy.mapper.extend.ApplicationMapperExtend;
 import org.apache.ibatis.annotations.Param;
 
-public interface ApplicationMapper {
+public interface ApplicationMapper extends ApplicationMapperExtend {
     long countByExample(ApplicationExample example);
 
     int deleteByExample(ApplicationExample example);

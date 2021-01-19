@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>待我审核</title>
+	<title>申请管理</title>
 	<!-- 告诉浏览器屏幕自适应 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Font Awesome -->
@@ -62,7 +62,7 @@
 							<div class="card-header">
 								<div class="row">
 									<div class="col-sm-2" style="align-content: center">
-										<h3 class="card-title">所有待审核申请</h3>
+										<h3 class="card-title">所有申请</h3>
 									</div>
 								</div>
 							</div>
@@ -98,7 +98,7 @@
 											<td>${application.difficultyLevel}</td>
 											<td>${application.applicationReason}</td>
 											<td>
-												<button class="btn btn-sm btn-primary btn_audit" name="${application.id}">审核</button>
+												<button class="btn btn-sm btn-primary btn_info" name="${application.id}">审核详情</button>
 											</td>
 										</tr>
 									</c:forEach>
@@ -129,46 +129,40 @@
 	<div id="sidebar-overlay"></div>
 
 	<!--模态框-->
-	<div class="modal fade" id="modal_audit" tabindex="-1" role="dialog" aria-labelledby="audit"
+	<div class="modal fade" id="modal_audit_info" tabindex="-1" role="dialog" aria-labelledby="audit"
 			 aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="audit">审核申请</h5>
+					<h5 class="modal-title" id="audit">审核详情</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="form_audit">
-						<input type="hidden" id="application_id" name="id">
-						<div class="form-group row">
-							<label class="col-sm-2 offset-sm-1 col-form-label font-weight-normal">是否同意</label>
-							<div class="col-sm-8">
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" id="agree" name="isAgreed" class="custom-control-input" value="T">
-									<label class="custom-control-label font-weight-light" for="agree">同&nbsp意</label>
-								</div>
-								<div class="custom-control custom-radio custom-control-inline">
-									<input type="radio" id="disagree" name="isAgreed" class="custom-control-input" value="F">
-									<label class="custom-control-label font-weight-light" for="disagree">不&nbsp同&nbsp意</label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group row ">
-							<label for="audit_comment" class="col-sm-2 offset-sm-1 col-form-label font-weight-normal">审核意见</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" id="audit_comment" name="auditComment"></textarea>
-							</div>
-						</div>
-					</form>
+					<input type="hidden" id="application_id" name="id">
+					<div class="timeline" id="audit_history_line">
+						<%--<div>--%>
+							<%--<i class="fas fa-check bg-green"></i>--%>
+							<%--<div class="timeline-item">--%>
+								<%--<h3 class="time"><i class="fas fa-clock"> 2021-01-01</i></h3>--%>
+								<%--<h3 class="timeline-header">由 <a href="#">Jay White</a> 审核</h3>--%>
+								<%--<div class="timeline-body">--%>
+									<%--<h4 style="color: green; margin:auto">通过</h4>--%>
+								<%--</div>--%>
+								<%--<div class="timeline-footer" style="padding: 0px 10px 10px 10px">--%>
+									<%--sdfsjlfj--%>
+								<%--</div>--%>
+							<%--</div>--%>
+						<%--</div>--%>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<div class="container-fluid">
 						<div class="row" style="text-align: center;margin: auto">
 							<button type="button" class="btn btn-sm btn-secondary col-sm-3 offset-2" data-dismiss="modal">返回
 							</button>
-							<button type="button" class="btn btn-sm btn-primary col-sm-3 offset-2" id="btn_confirm">确定</button>
+							<button type="button" class="btn btn-sm btn-primary col-sm-3 offset-2" data-dismiss="modal" id="btn_confirm">确定</button>
 						</div>
 					</div>
 				</div>
@@ -221,29 +215,92 @@
 <script src="${PATH}/static/js/my.js"></script>
 
 <script>
-  setHighlightAndMenuOpen("待我审核", "待我审核");
+  setHighlightAndMenuOpen("申请管理", "申请管理");
 
-  //点击审核按钮
-  $(".btn_audit").click(function () {
+  //点击审核详情按钮
+  $(".btn_info").click(function () {
     $("#application_id").val($(this).attr("name"));
-    //显示模态框
-    $("#modal_audit").modal("show");
-  });
 
-  //点击确定按钮
-  $("#btn_confirm").click(function () {
-		$.ajax({
-			url:"${PATH}/application/audit",
-			type:"post",
-			data:$("#form_audit").serialize(),
+    $.ajax({
+			url:"${PATH}/auditHistory/" + $(this).attr("name"),
 			dataType:"json",
 			success:function (result) {
-				if(result.data)
-				  layer.msg("审核成功", {time:2000, offset:['50%', '50%']}, function () {
-						window.location = "${PATH}/application/waitingForAudit";
-          })
+			  //List<AuditHistory>
+				var list = result.data;
+				console.info(list);
+				$("#audit_history_line").empty();
+				$(list).each(function (i, history) {
+				  var status, color, icon, flag, date;
+				  if(history.status === "TG") {
+            status = "通过";
+            color = "green";
+            icon = "check";
+            flag = true;
+          }
+				  else{
+            status = "不通过";
+            color = "red";
+            icon = "ban";
+            flag = false;
+					}
+				  date = new Date(history.gmtCreated).toLocaleDateString()
+						.replace("/", "年").replace("/", "月").concat("日");
+				  date = date + "  " + new Date(history.gmtCreated).toTimeString().substr(0, 8);
+
+					$("#audit_history_line").append("<div>\n" +
+            "\t\t\t\t\t\t\t<i class=\"fas fa-" + icon + " bg-" + color + "\"></i>\n" +
+            "\t\t\t\t\t\t\t<div class=\"timeline-item\">\n" +
+            "\t\t\t\t\t\t\t\t<h3 class=\"time\"><i class=\"fas fa-clock\"> " + date + "</i></h3>\n" +
+            "\t\t\t\t\t\t\t\t<h3 class=\"timeline-header\">由 <a href=\"#\">" + history.auditorName + "</a> 审核</h3>\n" +
+            "\t\t\t\t\t\t\t\t<div class=\"timeline-body\">\n" +
+            "\t\t\t\t\t\t\t\t\t<h4 style=\"color: " + color + "; margin:auto\">" + status + "</h4>\n" +
+            "\t\t\t\t\t\t\t\t</div>\n" +
+            "\t\t\t\t\t\t\t\t<div class=\"timeline-footer\" style=\"padding: 0px 10px 10px 10px\">\n" +
+            "\t\t\t\t\t\t\t\t\t" + history.auditComment + "\n" +
+            "\t\t\t\t\t\t\t\t</div>\n" +
+            "\t\t\t\t\t\t\t</div>\n" +
+            "\t\t\t\t\t\t</div>");
+        });
+				var leftFlow = 3 - list.length;
+        //如果这个的状态是不通过，设置最后一个Flow为红色
+        if(list[list.length - 1].status === "BTG"){
+          $("#audit_history_line").append("<div>\n" +
+            "\t\t\t\t\t\t\t<i class=\"fas fa-stop bg-red\"></i>\n" +
+            "\t\t\t\t\t\t</div>");
+        }
+        else{
+          for(var i = 0;i < leftFlow;i++){
+            var index = list.length + i;
+            var role;
+            switch (index) {
+              case 0: role = "辅导员"; break;
+              case 1: role = "学院"; break;
+              case 2: role = "学校"; break;
+            }
+            $("#audit_history_line").append("<div>\n" +
+              "\t\t\t\t\t\t\t<i class=\"fas fa-hourglass-start bg-gray\"></i>\n" +
+              "\t\t\t\t\t\t\t<div class=\"timeline-item\">\n" +
+              "\t\t\t\t\t\t\t\t<h3 class=\"timeline-header\">等待" + role + "审核</h3>\n" +
+              "\t\t\t\t\t\t\t</div>\n" +
+              "\t\t\t\t\t\t</div>");
+          }
+        }
+
+				if(list.length >= 3) {
+				  var color;
+				  if(list[list.length - 1].status !== "TG")
+				    color = "red";
+				  else
+				    color = "green";
+          $("#audit_history_line").append("<div>\n" +
+            "\t\t\t\t\t\t\t<i class=\"fas fa-stop bg-" + color + "\"></i>\n" +
+            "\t\t\t\t\t\t</div>");
+        }
       }
 		});
+
+    //显示模态框
+    $("#modal_audit_info").modal("show");
   });
 
 </script>

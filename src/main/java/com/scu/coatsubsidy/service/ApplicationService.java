@@ -7,6 +7,8 @@ import java.util.List;
 public interface ApplicationService {
     boolean insert(Application application);
     List<Application> waitingForAudit();
-    boolean auditById(Long id, String isAgreed, String auditComment);
+    boolean audit(Long applicationId, String isAgreed, String auditComment);
     Integer getCurrNodeCodeById(Long id);
+
+    List<Application> list();
 }

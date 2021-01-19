@@ -1,7 +1,5 @@
 package com.scu.coatsubsidy.controller;
 
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import com.scu.coatsubsidy.common.Constant;
 import com.scu.coatsubsidy.common.JsonResult;
 import com.scu.coatsubsidy.common.SessionUtils;
 import com.scu.coatsubsidy.domain.Application;
@@ -18,12 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import static com.scu.coatsubsidy.common.Constant.AUDIT_STATUS_DSH;
-import static com.scu.coatsubsidy.common.Constant.ROLE_INSTRUCTOR;
 
 @Controller
 @RequestMapping("/application")
@@ -78,6 +74,12 @@ public class ApplicationController {
     @RequestMapping(value = "/audit", method = RequestMethod.POST)
     @ResponseBody
     public JsonResult audit(Long id, String isAgreed, String auditComment){
-        return JsonResult.ok(service.auditById(id, isAgreed, auditComment));
+        return JsonResult.ok(service.audit(id, isAgreed, auditComment));
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model){
+        model.addAttribute("list", service.list());
+        return "applicationList";
     }
 }

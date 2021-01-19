@@ -46,20 +46,24 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .andStatusEqualTo(AUDIT_STATUS_DSH);
             return mapper.selectByExample(example);
         }
-        else
+        else if(roleId.equals(ROLE_COLLEGE)){
+            return mapper.collegeWaitingForAudit(user.getSn());
+        }else if(roleId.equals(ROLE_SCHOOL)){
+            return mapper.schoolWaitingForAudit();
+        }else
             return new ArrayList<>();
     }
 
     @Override
-    public boolean auditById(Long id, String isAgreed, String auditComment) {
+    public boolean audit(Long applicationId, String isAgreed, String auditComment) {
         AuditHistory auditHistory = new AuditHistory();
         Application application = new Application();
-        application.setId(id);
+        application.setId(applicationId);
         application.setAuditComment(auditComment);
-        Integer currNode = getCurrNodeCodeById(id);
+        Integer currNode = getCurrNodeCodeById(applicationId);
         Integer nextNode = roleFlowService.getNextNode(currNode);
         if (isAgreed.equals(AGREE)) {
-            if (nextNode.equals(AUDIT_NODE_3))
+            if (nextNode.equals(AUDIT_NODE_4))
                 application.setStatus(AUDIT_STATUS_TG);
             else if (!nextNode.equals(AUDIT_NODE_0))
                 application.setStatus(AUDIT_STATUS_DSH);
@@ -71,7 +75,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
         mapper.updateByPrimaryKeySelective(application);
 
-        auditHistory.setApplicationId(id);
+        auditHistory.setApplicationId(applicationId);
         auditHistory.setAuditBy(SessionUtils.getLoginUser().getSn());
         auditHistory.setAuditorName(SessionUtils.getLoginUser().getName());
         auditHistory.setAuditComment(auditComment);
@@ -90,5 +94,19 @@ public class ApplicationServiceImpl implements ApplicationService {
             return list.get(0).getCurrentNodeCode();
         else
             return AUDIT_NODE_0;
+    }
+
+    @Override
+    public List<Application> list() {
+        WhiteList user = SessionUtils.getLoginUser();
+        Long roleId = user.getRoleId();
+        if(roleId.equals(ROLE_INSTRUCTOR))
+            return mapper.listByInstructor(user.getSn());
+        else if(roleId.equals(ROLE_COLLEGE))
+            return mapper.listByCollege(user.getSn());
+        else if(roleId.equals(ROLE_SCHOOL))
+            return mapper.listBySchool();
+        else
+            return new ArrayList<>();
     }
 }

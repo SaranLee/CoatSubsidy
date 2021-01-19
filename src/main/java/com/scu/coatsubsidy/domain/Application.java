@@ -1,8 +1,10 @@
 package com.scu.coatsubsidy.domain;
 
+import com.scu.coatsubsidy.domain.extend.ApplicationExtend;
+
 import java.util.Date;
 
-public class Application {
+public class Application extends ApplicationExtend {
     private Long id;
 
     private Long batchId;
