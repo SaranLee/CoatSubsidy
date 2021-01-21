@@ -55,13 +55,14 @@
         <!--<table tableName="wcss_sku" domainObjectName="Sku">-->
             <!--<columnOverride column="is_deleted" javaType="int" property="deleted"/>-->
         <!--</table>-->
-        <table tableName="v_student_data" domainObjectName="Student">
-            <columnOverride column="class" property="clazz"/>
-        </table>
-        <table tableName="v_knrd" domainObjectName="Knrd"/>
-        <table tableName="wcss_application" domainObjectName="Application"/>
-        <table tableName="wcss_audit_history" domainObjectName="AuditHistory"/>
-        <table tableName="wcss_role_flow_setting" domainObjectName="RoleFlow"/>
-
+        <!--<table tableName="v_student_data" domainObjectName="Student">-->
+            <!--<columnOverride column="class" property="clazz"/>-->
+        <!--</table>-->
+        <!--<table tableName="v_knrd" domainObjectName="Knrd"/>-->
+        <!--<table tableName="wcss_application" domainObjectName="Application"/>-->
+        <!--<table tableName="wcss_audit_history" domainObjectName="AuditHistory"/>-->
+        <!--<table tableName="wcss_role_flow_setting" domainObjectName="RoleFlow"/>-->
+        <table tableName="wcss_role" domainObjectName="Role"/>
+        <table tableName="wcss_user_role" domainObjectName="UserRole"/>
     </context>
 </generatorConfiguration>

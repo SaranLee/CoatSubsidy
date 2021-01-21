@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scu.coatsubsidy.mapper.ProductMapper">
+    <resultMap id="ExtendMap" type="com.scu.coatsubsidy.domain.vo.ProductVO">
+        <id column="p_id" property="id"/>
+        <result column="p_name" property="name"/>
+        <result column="product_number" property="productNumber"/>
+        <result column="batch_id" property="batchId"/>
+        <result column="batch_name" property="batchName"/>
+        <result column="gender" property="gender"/>
+        <result column="gender_name" property="genderName"/>
+        <result column="description" property="description"/>
+        <collection property="skus" ofType="com.scu.coatsubsidy.domain.Sku">
+            <id column="s_id" property="id"/>
+            <result column="p_id" property="productId"/>
+            <result column="s_name" property="name"/>
+        </collection>
+        <collection property="imgs" ofType="com.scu.coatsubsidy.domain.ProductImage">
+            <id column="i_id" property="id"/>
+            <result column="p_id" property="productId"/>
+            <result column="i_name" property="name"/>
+            <result column="path" property="path"/>
+        </collection>
+    </resultMap>
+
+    <select id="getAllByStudent" resultMap="ExtendMap">
+        SELECT p.id p_id, p.`NAME` p_name, p.product_number, p.batch_id, b.`NAME` batch_name, p.gender, d.item_name gender_name, p.description,
+        s.id s_id, s.`NAME` s_name,
+        i.id i_id, i.`NAME` i_name, i.path
+        FROM wcss_product p
+        LEFT JOIN wcss_sku s ON s.product_id = p.id
+        LEFT JOIN wcss_product_image i ON i.product_id = p.id
+        LEFT JOIN wcss_application a ON p.batch_id = a.batch_id
+        LEFT JOIN wcss_batch_setting b ON b.id = a.batch_id
+        LEFT JOIN dictionary d ON d.item_value = a.gender AND d.type = 'GENDER'
+        WHERE a.sn = #{sn} AND p.gender IN (a.gender, 'MF') AND a.batch_id = #{batchId};
+    </select>
+</mapper>

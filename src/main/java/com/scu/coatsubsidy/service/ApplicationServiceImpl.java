@@ -1,14 +1,19 @@
 package com.scu.coatsubsidy.service;
 
+import com.scu.coatsubsidy.common.ExcelUtil;
 import com.scu.coatsubsidy.common.SessionUtils;
 import com.scu.coatsubsidy.domain.Application;
 import com.scu.coatsubsidy.domain.ApplicationExample;
 import com.scu.coatsubsidy.domain.AuditHistory;
 import com.scu.coatsubsidy.domain.WhiteList;
+import com.scu.coatsubsidy.domain.vo.AppliStatisticVO;
 import com.scu.coatsubsidy.mapper.ApplicationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,5 +113,35 @@ public class ApplicationServiceImpl implements ApplicationService {
             return mapper.listBySchool();
         else
             return new ArrayList<>();
+    }
+
+    @Override
+    public AppliStatisticVO statistic() {
+        WhiteList user = SessionUtils.getLoginUser();
+        Long roleId = user.getRoleId();
+        if(roleId.equals(ROLE_INSTRUCTOR))
+            return mapper.statisticByInstructor(user.getSn());
+        else if(roleId.equals(ROLE_COLLEGE))
+            return mapper.statisticByCollege(user.getSn());
+        else if(roleId.equals(ROLE_SCHOOL))
+            return mapper.statisticBySchool();
+        else
+            return new AppliStatisticVO();
+    }
+
+    @Override
+    public void export(HttpServletResponse response) {
+        List<Application> list = list();
+        String filename = "申请列表.xls";
+        try {
+            filename = java.net.URLEncoder.encode(filename,"utf-8");
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+            ExcelUtil.exportApplication(response, list);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

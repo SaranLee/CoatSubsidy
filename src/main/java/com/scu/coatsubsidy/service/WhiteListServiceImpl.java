@@ -27,4 +27,18 @@ public class WhiteListServiceImpl implements WhiteListService {
     public void insert(WhiteList user) {
         mapper.insertSelective(user);
     }
+
+    @Override
+    public boolean insert(String sn, String name) {
+        WhiteList user = new WhiteList();
+        user.setSn(sn);
+        user.setName(name);
+        mapper.insertSelective(user);
+        return true;
+    }
+
+    @Override
+    public List<WhiteList> list() {
+        return mapper.selectByExample(null);
+    }
 }

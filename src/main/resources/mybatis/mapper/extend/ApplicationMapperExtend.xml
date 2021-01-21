@@ -5,6 +5,12 @@
         <result column="batch_name" property="batchName"/>
         <result column="status_name" property="statusName"/>
     </resultMap>
+    <resultMap id="StatisticMap" type="com.scu.coatsubsidy.domain.vo.AppliStatisticVO">
+        <result column="count" property="count"/>
+        <result column="pass_count" property="passCount"/>
+        <result column="fail_count" property="failCount"/>
+        <result column="pend_count" property="pendCount"/>
+    </resultMap>
 
     <select id="collegeWaitingForAudit" resultMap="ExtendMap">
         SELECT a.*, b.`NAME` batch_name, d.item_name status_name
@@ -46,5 +52,36 @@
         FROM wcss_application a
         LEFT JOIN wcss_batch_setting b ON a.batch_id = b.id
         LEFT JOIN dictionary d ON a.`STATUS` = d.item_value AND d.type = 'STATUS';
+    </select>
+
+    <select id="statisticByInstructor" resultMap="StatisticMap">
+        SELECT
+            COUNT(*) count,
+            SUM(IF(a.`STATUS`='TG', 1, 0)) pass_count,
+            SUM(IF(a.`STATUS`='BTG', 1, 0)) fail_count,
+            SUM(IF(a.`STATUS`='DSH', 1, 0)) pend_count
+        FROM wcss_application a
+        LEFT JOIN v_user_manage u ON a.class_sn = u.organization_sn AND u.role_id = 4
+        WHERE user_sn = #{sn};
+    </select>
+
+    <select id="statisticByCollege" resultMap="StatisticMap">
+        SELECT
+            COUNT(*) count,
+            SUM(IF(a.`STATUS`='TG', 1, 0)) pass_count,
+            SUM(IF(a.`STATUS`='BTG', 1, 0)) fail_count,
+            SUM(IF(a.`STATUS`='DSH', 1, 0)) pend_count
+        FROM wcss_application a
+        LEFT JOIN v_user_manage u ON a.class_sn = u.organization_sn AND u.role_id = 3
+        WHERE user_sn = #{sn};
+    </select>
+
+    <select id="statisticBySchool" resultMap="StatisticMap">
+        SELECT
+            COUNT(*) count,
+            SUM(IF(a.`STATUS`='TG', 1, 0)) pass_count,
+            SUM(IF(a.`STATUS`='BTG', 1, 0)) fail_count,
+            SUM(IF(a.`STATUS`='DSH', 1, 0)) pend_count
+        FROM wcss_application a
     </select>
 </mapper>

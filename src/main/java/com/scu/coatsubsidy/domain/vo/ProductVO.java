@@ -9,6 +9,8 @@ import java.util.List;
 public class ProductVO extends Product {
     private List<ProductImage> imgs;
     private List<Sku> skus;
+    private String batchName;
+    private String genderName;
 
     public ProductVO() {
     }
@@ -23,6 +25,22 @@ public class ProductVO extends Product {
         setGmtCreated(product.getGmtCreated());
         setGmtModified(product.getGmtModified());
         setDescription(product.getDescription());
+    }
+
+    public String getGenderName() {
+        return genderName;
+    }
+
+    public void setGenderName(String genderName) {
+        this.genderName = genderName;
+    }
+
+    public String getBatchName() {
+        return batchName;
+    }
+
+    public void setBatchName(String batchName) {
+        this.batchName = batchName;
     }
 
     public List<ProductImage> getImgs() {

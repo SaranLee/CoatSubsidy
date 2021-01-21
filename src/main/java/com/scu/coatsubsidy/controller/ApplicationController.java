@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -48,6 +49,10 @@ public class ApplicationController {
         application.setBatchId(batchService.getCurrBatch().getId());
         application.setSn(student.getSn());
         application.setName(student.getName());
+        if(student.getGender().equals("男性"))
+            application.setGender("M");
+        else
+            application.setGender("F");
         application.setGender(student.getGender());
         application.setApplyDate(new Date());
         application.setCollegeSn(student.getCollegeCode());
@@ -81,5 +86,23 @@ public class ApplicationController {
     public String list(Model model){
         model.addAttribute("list", service.list());
         return "applicationList";
+    }
+
+    @RequestMapping(value = "/statistic", method = RequestMethod.GET)
+    public String statistic(Model model){
+        model.addAttribute("sta", service.statistic());
+        return "applicationStatistic";
+    }
+
+    @RequestMapping(value = "/statisticAjax", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResult statisticAjax(){
+        return JsonResult.ok(service.statistic());
+    }
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @ResponseBody
+    public void export(HttpServletResponse response){
+        service.export(response);
     }
 }

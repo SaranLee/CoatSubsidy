@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>申请管理</title>
+	<title>白名单管理</title>
 	<!-- 告诉浏览器屏幕自适应 -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Font Awesome -->
@@ -57,15 +57,17 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-12">
-						<!--申请表格-->
+						<!--批次表格-->
 						<div class="card">
 							<div class="card-header">
 								<div class="row">
 									<div class="col-sm-2" style="align-content: center">
-										<h3 class="card-title">所有申请</h3>
+										<h3 class="card-title">所有白名单用户</h3>
 									</div>
-									<div class="col-sm-1 offset-sm-9">
-										<a href="${PATH}/application/export" class="btn btn-sm btn-primary container-fluid">导出</a>
+									<div class="col-sm-1 offset-8 card-tools">
+										<button id="btn_add_whitelist" type="button" class="btn btn-outline-primary btn-sm container-fluid">
+											添加用户
+										</button>
 									</div>
 								</div>
 							</div>
@@ -75,34 +77,36 @@
 									<thead>
 									<tr>
 										<th>序号</th>
-										<th>批次名</th>
-										<th>学号</th>
+										<th>学号/工号</th>
 										<th>姓名</th>
-										<th>性别</th>
-										<th>学院</th>
-										<th>专业</th>
-										<th>班级</th>
-										<th>困难等级</th>
-										<th>申请原因</th>
+										<th>角色</th>
+										<th>状态</th>
 										<th>操作</th>
 									</tr>
 									</thead>
 									<tbody>
-									<c:forEach items="${requestScope.list}" var="application" varStatus="status">
+									<c:forEach items="${list}" var="user" varStatus="status">
 										<tr>
 											<td>${status.count}</td>
-											<td>${application.batchName}</td>
-											<td>${application.sn}</td>
-											<td>${application.name}</td>
-											<td>${application.gender}</td>
-											<td>${application.collegeName}</td>
-											<td>${application.majorName}</td>
-											<td>${application.className}</td>
-											<td>${application.difficultyLevel}</td>
-											<td>${application.applicationReason}</td>
-											<td>
-												<button class="btn btn-sm btn-primary btn_info" name="${application.id}">审核详情</button>
-											</td>
+											<td>${user.sn}</td>
+											<td>${user.name}</td>
+											<td>${user.roleId}</td>
+											<c:if test="${user.isEnabled}">
+												<td style="color: limegreen">已启用</td>
+												<td>
+													<button type="button" class="btn btn-danger btn-sm btn_disable" name="${user.sn}">
+														禁&nbsp&nbsp用
+													</button>
+												</td>
+											</c:if>
+											<c:if test="${!user.isEnabled}">
+												<td style="color: #891c14">已禁用</td>
+												<td>
+													<button type="button" class="btn btn-success btn-sm btn_enable" name="${user.sn}">
+														启&nbsp&nbsp用
+													</button>
+												</td>
+											</c:if>
 										</tr>
 									</c:forEach>
 									</tbody>
@@ -132,40 +136,39 @@
 	<div id="sidebar-overlay"></div>
 
 	<!--模态框-->
-	<div class="modal fade" id="modal_audit_info" tabindex="-1" role="dialog" aria-labelledby="audit"
+	<div class="modal fade" id="modal_add_whitelist" tabindex="-1" role="dialog" aria-labelledby="add_whitelist"
 			 aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="audit">审核详情</h5>
+					<h5 class="modal-title" id="add_whitelist">添加白名单用户</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" id="application_id" name="id">
-					<div class="timeline" id="audit_history_line">
-						<%--<div>--%>
-							<%--<i class="fas fa-check bg-green"></i>--%>
-							<%--<div class="timeline-item">--%>
-								<%--<h3 class="time"><i class="fas fa-clock"> 2021-01-01</i></h3>--%>
-								<%--<h3 class="timeline-header">由 <a href="#">Jay White</a> 审核</h3>--%>
-								<%--<div class="timeline-body">--%>
-									<%--<h4 style="color: green; margin:auto">通过</h4>--%>
-								<%--</div>--%>
-								<%--<div class="timeline-footer" style="padding: 0px 10px 10px 10px">--%>
-									<%--sdfsjlfj--%>
-								<%--</div>--%>
-							<%--</div>--%>
-						<%--</div>--%>
-					</div>
+					<form id="form_add_whitelist">
+						<input type="hidden" id="batch_id" name="id">
+						<div class="form-group row ">
+							<label for="sn" class="col-sm-2 offset-sm-1 col-form-label font-weight-normal">工号</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="sn" name="sn">
+							</div>
+						</div>
+						<div class="form-group row ">
+							<label for="name" class="col-sm-2 offset-sm-1 col-form-label font-weight-normal">姓名</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="name" name="name" disabled>
+							</div>
+						</div>
+					</form>
 				</div>
 				<div class="modal-footer">
 					<div class="container-fluid">
 						<div class="row" style="text-align: center;margin: auto">
 							<button type="button" class="btn btn-sm btn-secondary col-sm-3 offset-2" data-dismiss="modal">返回
 							</button>
-							<button type="button" class="btn btn-sm btn-primary col-sm-3 offset-2" data-dismiss="modal" id="btn_confirm">确定</button>
+							<button type="button" class="btn btn-sm btn-primary col-sm-3 offset-2" id="btn_add">添加</button>
 						</div>
 					</div>
 				</div>
@@ -218,92 +221,75 @@
 <script src="${PATH}/static/js/my.js"></script>
 
 <script>
-  setHighlightAndMenuOpen("申请管理", "申请管理");
+  setHighlightAndMenuOpen("批次设置", "批次设置");
 
-  //点击审核详情按钮
-  $(".btn_info").click(function () {
-    $("#application_id").val($(this).attr("name"));
-
-    $.ajax({
-			url:"${PATH}/auditHistory/" + $(this).attr("name"),
-			dataType:"json",
-			success:function (result) {
-			  //List<AuditHistory>
-				var list = result.data;
-				console.info(list);
-				$("#audit_history_line").empty();
-				$(list).each(function (i, history) {
-				  var status, color, icon, flag, date;
-				  if(history.status === "TG") {
-            status = "通过";
-            color = "green";
-            icon = "check";
-            flag = true;
-          }
-				  else{
-            status = "不通过";
-            color = "red";
-            icon = "ban";
-            flag = false;
-					}
-				  date = new Date(history.gmtCreated).toLocaleDateString()
-						.replace("/", "年").replace("/", "月").concat("日");
-				  date = date + "  " + new Date(history.gmtCreated).toTimeString().substr(0, 8);
-
-					$("#audit_history_line").append("<div>\n" +
-            "\t\t\t\t\t\t\t<i class=\"fas fa-" + icon + " bg-" + color + "\"></i>\n" +
-            "\t\t\t\t\t\t\t<div class=\"timeline-item\">\n" +
-            "\t\t\t\t\t\t\t\t<h3 class=\"time\"><i class=\"fas fa-clock\"> " + date + "</i></h3>\n" +
-            "\t\t\t\t\t\t\t\t<h3 class=\"timeline-header\">由 <a href=\"#\">" + history.auditorName + "</a> 审核</h3>\n" +
-            "\t\t\t\t\t\t\t\t<div class=\"timeline-body\">\n" +
-            "\t\t\t\t\t\t\t\t\t<h4 style=\"color: " + color + "; margin:auto\">" + status + "</h4>\n" +
-            "\t\t\t\t\t\t\t\t</div>\n" +
-            "\t\t\t\t\t\t\t\t<div class=\"timeline-footer\" style=\"padding: 0px 10px 10px 10px\">\n" +
-            "\t\t\t\t\t\t\t\t\t" + history.auditComment + "\n" +
-            "\t\t\t\t\t\t\t\t</div>\n" +
-            "\t\t\t\t\t\t\t</div>\n" +
-            "\t\t\t\t\t\t</div>");
-        });
-				var leftFlow = 3 - list.length;
-        //如果这个的状态是不通过，设置最后一个Flow为红色
-        if(list[list.length - 1].status === "BTG"){
-          $("#audit_history_line").append("<div>\n" +
-            "\t\t\t\t\t\t\t<i class=\"fas fa-stop bg-red\"></i>\n" +
-            "\t\t\t\t\t\t</div>");
-        }
-        else{
-          for(var i = 0;i < leftFlow;i++){
-            var index = list.length + i;
-            var role;
-            switch (index) {
-              case 0: role = "辅导员"; break;
-              case 1: role = "学院"; break;
-              case 2: role = "学校"; break;
-            }
-            $("#audit_history_line").append("<div>\n" +
-              "\t\t\t\t\t\t\t<i class=\"fas fa-hourglass-start bg-gray\"></i>\n" +
-              "\t\t\t\t\t\t\t<div class=\"timeline-item\">\n" +
-              "\t\t\t\t\t\t\t\t<h3 class=\"timeline-header\">等待" + role + "审核</h3>\n" +
-              "\t\t\t\t\t\t\t</div>\n" +
-              "\t\t\t\t\t\t</div>");
-          }
-        }
-
-				if(list.length >= 3) {
-				  var color;
-				  if(list[list.length - 1].status !== "TG")
-				    color = "red";
-				  else
-				    color = "green";
-          $("#audit_history_line").append("<div>\n" +
-            "\t\t\t\t\t\t\t<i class=\"fas fa-stop bg-" + color + "\"></i>\n" +
-            "\t\t\t\t\t\t</div>");
-        }
-      }
-		});
-
-    //显示模态框
-    $("#modal_audit_info").modal("show");
+  //点击添加按钮打开模态框
+  $("#btn_add_whitelist").click(function () {
+    //显示添加批次的模态框
+    $("#modal_add_whitelist").modal("show");
   });
 
+  if($("#sn").val() == null || $("#sn").val().trim === ""){
+    $("#name").val("请输入工号");
+  }
+
+  //模态框中，工号输入框，改变时，ajax查询姓名
+  $("#sn").bind("input propertychange", function () {
+    var sn = $(this).val();
+    if(sn == null || sn.trim() === ""){
+      $("#name").val("请输入工号");
+      return;
+    }
+  	var user = queryUserBySn(sn);
+    if(user != null)
+      $("#name").val(user.username);
+    else
+      $("#name").val("查无此人");
+  });
+
+  //点击模态框中的保存按钮，添加批次或者修改批次信息
+  $("#btn_add").click(function () {
+    var sn = $("#sn").val();
+    if(sn == null || sn.trim() === ""){
+      layer.msg("请输入工号!");
+      return false;
+    }
+    var user = queryUserBySn(sn);
+    if(user != null)
+      $.ajax({
+				url:"${PATH}/whiteList/",
+				type:"post",
+				data:{'sn':sn, 'name':user.username},
+				dataType:"json",
+				success:function (result) {
+					layer.msg("添加成功", {time:1500, offset:['50%', '50%']}, function () {
+						$("#modal_add_whitelist").modal("hide");
+          });
+        }
+			});
+    else
+      layer.msg("请输入正确的工号!");
+  });
+
+</script>
+
+<script>
+  /**
+	 * 查询user_manage中指定sn的用户
+   * @param sn
+   * @returns {*}
+   */
+	function queryUserBySn(sn){
+	  var data;
+    $.ajax({
+      url:"${PATH}/userManage/" + sn,
+      type:"get",
+      dataType:"json",
+			async:false,
+      success:function (result) {
+        data = result.data;
+      }
+    });
+    return data;
+	}
 </script>

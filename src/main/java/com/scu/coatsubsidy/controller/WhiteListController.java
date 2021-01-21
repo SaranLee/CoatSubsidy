@@ -1,16 +1,21 @@
 package com.scu.coatsubsidy.controller;
 
 import com.scu.coatsubsidy.common.Constant;
+import com.scu.coatsubsidy.common.JsonResult;
 import com.scu.coatsubsidy.common.SessionUtils;
+import com.scu.coatsubsidy.domain.Role;
+import com.scu.coatsubsidy.domain.UserManage;
+import com.scu.coatsubsidy.domain.UserRole;
 import com.scu.coatsubsidy.domain.WhiteList;
-import com.scu.coatsubsidy.service.KnrdService;
-import com.scu.coatsubsidy.service.StudentService;
-import com.scu.coatsubsidy.service.WhiteListService;
+import com.scu.coatsubsidy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/whiteList", method = RequestMethod.POST)
@@ -22,6 +27,10 @@ public class WhiteListController {
     private StudentService studentService;
     @Autowired
     private KnrdService knrdService;
+    @Autowired
+    private UserManageService userManageService;
+    @Autowired
+    private UserRoleService userRoleService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(WhiteList user, Model model){
@@ -51,5 +60,18 @@ public class WhiteListController {
     public String logout() {
         SessionUtils.removeLoginUser();
         return "login";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(Model model){
+        model.addAttribute("list", service.list());
+        return "userList";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResult insert(String sn, String name){
+        Set<UserRole> userRoles = userManageService.getUserRolesBySn(sn);
+        return JsonResult.ok(service.insert(sn, name) && userRoleService.insertBatch(userRoles));
     }
 }

@@ -1,14 +1,13 @@
 package com.scu.coatsubsidy.service;
 
-import com.scu.coatsubsidy.domain.Product;
-import com.scu.coatsubsidy.domain.ProductExample;
-import com.scu.coatsubsidy.domain.ProductImage;
-import com.scu.coatsubsidy.domain.Sku;
+import com.scu.coatsubsidy.common.SessionUtils;
+import com.scu.coatsubsidy.domain.*;
 import com.scu.coatsubsidy.domain.dto.ProductDTO;
 import com.scu.coatsubsidy.domain.vo.ProductVO;
 import com.scu.coatsubsidy.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -28,9 +27,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductImageService productImageService;
-
     @Autowired
     private SkuService skuService;
+    @Autowired
+    private BatchService batchService;
 
     @Override
     public boolean add(Product product, MultipartFile[] files, String imgPathPrefix) {
@@ -119,6 +119,13 @@ public class ProductServiceImpl implements ProductService {
         }).collect(Collectors.toList());
 
         return productImageService.insertBatch(imgs) && skuService.insertBatch(skus);
+    }
+
+    @Override
+    public List<ProductVO> getAllByStudent() {
+        WhiteList user = SessionUtils.getLoginUser();
+        Batch currBatch = batchService.getCurrBatch();
+        return mapper.getAllByStudent(user.getSn(), currBatch.getId());
     }
 
 

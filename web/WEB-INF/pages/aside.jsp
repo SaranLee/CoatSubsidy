@@ -76,10 +76,10 @@
 						</a>
 					</li>
 					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link link-1st">
+						<a href="${PATH}/product/listByStudent" class="nav-link link-1st">
 							<i class="nav-icon fas fa-edit"></i>
 							<p>
-								申请历史
+								选择寒衣
 							</p>
 						</a>
 					</li>
@@ -104,7 +104,7 @@
 						</a>
 					</li>
 					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link link-1st">
+						<a href="${PATH}/application/statistic" class="nav-link link-1st">
 							<i class="nav-icon fas fa-edit"></i>
 							<p>
 								申请总览
@@ -128,7 +128,7 @@
 						</a>
 					</li>
 					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link link-1st">
+						<a href="${PATH}/whiteList/list" class="nav-link link-1st">
 							<i class="nav-icon fas fa-edit"></i>
 							<p>
 								白名单管理

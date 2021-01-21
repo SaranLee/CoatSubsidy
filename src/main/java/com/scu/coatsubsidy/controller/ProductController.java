@@ -44,6 +44,11 @@ public class ProductController {
         model.addAttribute("list", list);
         return "productList";
     }
+    @RequestMapping(value = "/listByStudent", method = RequestMethod.GET)
+    public String getAllByStudent(Model model){
+        model.addAttribute("list", service.getAllByStudent());
+        return "productListByStudent";
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody

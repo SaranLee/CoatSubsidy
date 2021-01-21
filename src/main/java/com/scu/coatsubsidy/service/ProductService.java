@@ -14,4 +14,6 @@ public interface ProductService {
     ProductVO getById(Integer id);
 
     boolean updateById(ProductDTO product, MultipartFile[] files, String imgPathPrefix);
+
+    List<ProductVO> getAllByStudent();
 }
