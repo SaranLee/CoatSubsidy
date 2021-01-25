@@ -26,7 +26,13 @@
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="#" class="nav-link">联系</a>
 		</li>
+		<li class="nav-item d-none d-sm-inline-block">
+			<label class="nav-link" for="switch_role">切换角色</label>
+		</li>
 	</ul>
+	<select class="info" id="switch_role">
+
+	</select>
 </nav>
 <!-- /.navbar -->
 
@@ -263,7 +269,7 @@
 						<button class="btn btn-outline-primary col-sm-8 offset-sm-2">王群超（辅导员）</button>
 					</form>
 				</c:if>
-				<c:if test="${loginUser.sn != 11084}">
+				<c:if test="${loginUser.sn != 11068}">
 					<form id="instructor" action="${PATH}/whiteList/login" method="post">
 						<input type="hidden" name="name" value="李道成">
 						<input type="hidden" name="sn" value="11068">
@@ -275,6 +281,13 @@
 						<input type="hidden" name="name" value="李佳辉">
 						<input type="hidden" name="sn" value="0121801100625">
 						<button class="btn btn-outline-primary col-sm-8 offset-sm-2">李佳辉（学生）</button>
+					</form>
+				</c:if>
+				<c:if test="${loginUser.sn != 11264}">
+					<form id="student" action="${PATH}/whiteList/login" method="post">
+						<input type="hidden" name="name" value="吕正祥">
+						<input type="hidden" name="sn" value="11264">
+						<button class="btn btn-outline-primary col-sm-8 offset-sm-2">吕正祥（学院和辅导员）</button>
 					</form>
 				</c:if>
 
@@ -294,4 +307,25 @@
 	$(".username").click(function () {
 		$("#modal_switch_user").modal("show")
   });
+
+	//切换角色下拉框
+	$("#switch_role").empty();
+	$.ajax({
+		url:"${PATH}/userRole/" + "${sessionScope.loginUser.sn}",
+		type:"get",
+		dataType:"json",
+		success:function (result) {
+			var userRoles = result.data;
+			$(userRoles).each(function (i, userRole) {
+				$("#switch_role").append("<option value='" + userRole.roleId +"'>" + userRole.roleName +"</option>")
+      })
+      $("#switch_role").val("${loginUser.roleId}");
+    }
+	});
+
+	//当下拉框选项改变时，切换角色
+	$("#switch_role").change(function () {
+		window.location = "${PATH}/whiteList/switchRole/" + $(this).val();
+  });
+
 </script>

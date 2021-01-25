@@ -7,4 +7,6 @@ import java.util.Set;
 public interface UserRoleService {
 
     boolean insertBatch(Set<UserRole> userRoles);
+
+    Set<UserRole> getUserRolesBySn(String sn);
 }

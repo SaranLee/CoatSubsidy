@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>VueTest</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- 告诉浏览器屏幕自适应 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Font Awesome -->
+	<link rel="stylesheet"
+				href="static/adminlte/plugins/fontawesome-free/css/all.min.css">
+	<!-- 主题样式 -->
+	<link rel="stylesheet" href="static/adminlte/dist/css/adminlte.min.css">
+	<!-- 离线 Google 字体: Source Sans Pro -->
+	<link href="static/adminlte/dist/css/google.css?family=Source+Sans+Pro:300,400,400i,700"
+				rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="static/adminlte/plugins/fontawesome-free/css/all.min.css">
+	<!-- Ionicons -->
+	<link rel="stylesheet" href="https://cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- daterange picker -->
+	<link rel="stylesheet" href="static/adminlte/plugins/daterangepicker/daterangepicker.css">
+	<!-- iCheck for checkboxes and radio inputs -->
+	<link rel="stylesheet" href="static/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+	<!-- Bootstrap Color Picker -->
+	<link rel="stylesheet" href="static/adminlte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+	<!-- Tempusdominus Bbootstrap 4 -->
+	<link rel="stylesheet"
+				href="static/adminlte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+	<!-- Select2 -->
+	<link rel="stylesheet" href="static/adminlte/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="static/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+	<!-- Bootstrap4 Duallistbox -->
+	<link rel="stylesheet" href="static/adminlte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+	<!-- 主题样式 -->
+	<link rel="stylesheet" href="static/adminlte/dist/css/adminlte.min.css">
+	<!-- layui -->
+	<link rel="stylesheet" href="static/layui/css/modules/layer/default/layer.css">
+</head>
+<body>
+	<div class="card-body table-responsive p-0">
+	<table class="table table-hover text-nowrap" style="text-align: center">
+		<thead>
+			<tr id="table_head">
+				<th v-for="th in ths">{{th.msg}}</th>
+			</tr>
+		</thead>
+		<tbody id="table_data">
+			<tr>
+				<td v-for="td in tds">{{td.msg}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>
+
+<!-- jQuery -->
+<script src="static/adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="static/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE -->
+<script src="static/adminlte/dist/js/adminlte.js"></script>
+
+<!-- OPTIONAL SCRIPTS -->
+<script src="static/adminlte/plugins/chart.js/Chart.min.js"></script>
+<script src="static/adminlte/dist/js/demo.js"></script>
+<script src="static/adminlte/dist/js/pages/dashboard3.js"></script>
+<!-- Bootstrap 4 -->
+<script src="static/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="static/adminlte/plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="static/adminlte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="static/adminlte/plugins/moment/moment.min.js"></script>
+<script src="static/adminlte/plugins/moment/locale/zh-cn.js"></script>
+<script src="static/adminlte/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="static/adminlte/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="static/adminlte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="static/adminlte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap 开关 -->
+<script src="static/adminlte/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- AdminLTE App -->
+<script src="static/adminlte/dist/js/adminlte.min.js"></script>
+<!-- 用于演示 AdminLTE -->
+<script src="static/adminlte/dist/js/demo.js"></script>
+<script src="static/layui/lay/modules/layer.js"></script>
+<script src="static/js/vue.js"></script>
+
+<script>
+	new Vue({
+		el: '#table_head',
+		data: {
+		  ths:[{msg:'序号'}, {msg:'学号'}, {msg:'姓名'}, {msg:'角色'}, {msg:'状态'}, {msg:'操作'}]
+		}
+	})
+
+	new Vue({
+		el:'#table_data'
+	})
+
+	$.ajax({
+		url:"whiteList/listAjax",
+		dataType:"json",
+		success:function(result){
+		  console.info(result.data)
+		}
+	})
+</script>

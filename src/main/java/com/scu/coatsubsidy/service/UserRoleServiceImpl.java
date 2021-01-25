@@ -18,4 +18,9 @@ public class UserRoleServiceImpl implements UserRoleService {
         mapper.insertBatch(userRoles);
         return true;
     }
+
+    @Override
+    public Set<UserRole> getUserRolesBySn(String sn) {
+        return mapper.getBySn(sn);
+    }
 }

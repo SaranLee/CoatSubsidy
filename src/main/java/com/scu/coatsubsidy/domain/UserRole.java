@@ -1,8 +1,10 @@
 package com.scu.coatsubsidy.domain;
 
+import com.scu.coatsubsidy.domain.extend.UserRoleExtend;
+
 import java.util.Objects;
 
-public class UserRole {
+public class UserRole extends UserRoleExtend {
     private Long id;
 
     private String userSn;

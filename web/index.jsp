@@ -13,6 +13,7 @@
   </head>
   <body>
     <c:set var="PATH" value="${pageContext.request.contextPath}" scope="application"/>
-    <jsp:forward page="WEB-INF/pages/login.jsp"/>
+    <%--<jsp:forward page="WEB-INF/pages/login.jsp"/>--%>
+    <jsp:forward page="WEB-INF/pages/vueTest.html"/>
   </body>
 </html>

@@ -13,4 +13,6 @@ public interface WhiteListService {
     boolean insert(String sn, String name);
 
     List<WhiteList> list();
+
+    void switchRole(Integer roleId);
 }

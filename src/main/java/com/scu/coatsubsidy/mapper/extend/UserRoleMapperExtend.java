@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface UserRoleMapperExtend {
     boolean insertBatch(@Param("userRoles") Set<UserRole> userRoles);
+    Set<UserRole> getBySn(@Param("sn") String sn);
 }

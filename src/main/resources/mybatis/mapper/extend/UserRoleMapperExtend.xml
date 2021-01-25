@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scu.coatsubsidy.mapper.UserRoleMapper">
+    <resultMap id="ExtendMap" type="com.scu.coatsubsidy.domain.UserRole" extends="BaseResultMap">
+        <result column="role_name" property="roleName"/>
+    </resultMap>
+
     <insert id="insertBatch">
         insert into wcss_user_role(user_sn, role_id) values
         <foreach collection="userRoles" item="userRole" separator=", ">
             (#{userRole.userSn}, #{userRole.roleId})
         </foreach>
     </insert>
+
+    <select id="getBySn" resultMap="ExtendMap">
+        SELECT ur.*, r.`name` role_name
+        FROM wcss_user_role ur
+        LEFT JOIN wcss_role r ON ur.role_id = r.id
+        WHERE ur.user_sn = #{sn}
+    </select>
 </mapper>

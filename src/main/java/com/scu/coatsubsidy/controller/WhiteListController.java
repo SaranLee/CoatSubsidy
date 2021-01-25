@@ -11,6 +11,7 @@ import com.scu.coatsubsidy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -73,5 +74,17 @@ public class WhiteListController {
     public JsonResult insert(String sn, String name){
         Set<UserRole> userRoles = userManageService.getUserRolesBySn(sn);
         return JsonResult.ok(service.insert(sn, name) && userRoleService.insertBatch(userRoles));
+    }
+
+    @RequestMapping(value = "/switchRole/{roleId}", method = RequestMethod.GET)
+    public String switchRole(@PathVariable("roleId") Integer roleId){
+        service.switchRole(roleId);
+        return "main";
+    }
+
+    @RequestMapping(value = "/listAjax", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonResult listAjax(){
+        return JsonResult.ok(service.list());
     }
 }
